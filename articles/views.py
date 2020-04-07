@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article
 from .forms import ArticleForm
 
@@ -22,3 +22,10 @@ def create(request):
         'form': form
     }
     return render(request, 'articles/create.html', context)
+
+def detail(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    context = {
+        'article': article
+    }
+    return render(request, 'articles/detail.html', context)
