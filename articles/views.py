@@ -23,7 +23,7 @@ def create(request):
     context = {
         'form': form
     }
-    return render(request, 'articles/create.html', context)
+    return render(request, 'articles/form.html', context)
 
 def detail(request, pk):
     article = get_object_or_404(Article, pk=pk)
@@ -37,3 +37,18 @@ def delete(request, pk):
     article = get_object_or_404(Article, pk=pk)
     article.delete()
     return redirect('articles:index')
+
+def update(request, pk):
+    # 수정시에는 해당 article 인스턴스를 넘겨줘야한다!
+    article = get_object_or_404(Article, pk=pk)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            article = form.save()
+            return redirect('articles:detail', article.pk)
+    else:
+        form = ArticleForm(instance=article)
+    context = {
+        'form': form
+    }
+    return render(request, 'articles/form.html', context)

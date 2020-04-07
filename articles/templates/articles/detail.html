@@ -11,4 +11,5 @@
         {% csrf_token %}
         <input type="submit" value="삭제">
     </form>
+    <button><a href="{% url 'articles:update' article.pk %}">수정</a></button>
 {% endblock %}
