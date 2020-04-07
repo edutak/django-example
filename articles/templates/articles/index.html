@@ -2,6 +2,7 @@
 
 {% block body %}
     <h2>게시판 목록</h2>
+    <a href="{% url 'articles:new' %}">글 쓰기</a>
     {% for article in articles %}
         <h3>{{ article.pk }} : {{ article.title }}</h3>
         <p>{{ article.created_at }}</p>
