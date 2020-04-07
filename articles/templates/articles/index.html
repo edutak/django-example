@@ -2,11 +2,23 @@
 
 {% block body %}
     <h2>게시판 목록</h2>
-    <a href="{% url 'articles:create' %}">글 쓰기</a>
-    {% for article in articles %}
-        <h3>{{ article.pk }} : {{ article.title }}</h3>
-        <p>{{ article.created_at }}</p>
-        <a href="{% url 'articles:detail' article.pk %}">글 보기</a>
-        <hr>
-    {% endfor %}
+    <a href="{% url 'articles:create' %}"><button class="btn btn-primary">글 쓰기</button></a>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">제목</th>
+          <th scope="col">작성 시간</th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for article in articles %}
+        <tr>
+          <th scope="row">{{ article.pk }}</th>
+          <td><a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a></td>
+          <td>{{ article.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 {% endblock %}

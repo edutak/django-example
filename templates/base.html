@@ -1,13 +1,18 @@
 <!DOCTYPE html>
+{% load bootstrap4 %}
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Django Live Session</title>
+    {% bootstrap_css %}
 </head>
 <body>
-    {% block body %}
-    {% endblock %}
+    <div class="container">
+        {% block body %}
+        {% endblock %}
+    </div>
+    {% bootstrap_javascript jquery='full' %}
 </body>
 </html>
