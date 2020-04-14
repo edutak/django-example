@@ -4,6 +4,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.views.decorators.http import require_POST
 
 # from .forms import CustomUserChangeForm
 # from django.contrib.auth.models import User
@@ -57,4 +58,10 @@ def login(request):
 def logout(request):
     # 조건식으로 직접 작성 해도 된다.
     auth_logout(request)
+    return redirect('articles:index')
+
+@require_POST
+@login_required
+def delete(request):
+    request.user.delete()
     return redirect('articles:index')
