@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 # from .forms import CustomUserChangeForm
@@ -44,3 +45,7 @@ def login(request):
         'form': form
     }
     return render(request, 'accounts/login.html', context)
+
+def logout(request):
+    auth_logout(request)
+    return redirect('articles:index')
