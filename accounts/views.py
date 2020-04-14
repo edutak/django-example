@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.views.decorators.http import require_POST
 
-# from .forms import CustomUserChangeForm
-# from django.contrib.auth.models import User
+from .forms import CustomUserChangeForm
 
 # Create your views here.
 def signup(request):
@@ -65,3 +64,16 @@ def logout(request):
 def delete(request):
     request.user.delete()
     return redirect('articles:index')
+
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('articles:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/update.html', context)
