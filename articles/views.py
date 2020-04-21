@@ -18,8 +18,10 @@ def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
         if form.is_valid():
-            article = form.save()
-            return redirect('articles:index')
+            article = form.save(commit=False)
+            article.user = request.user
+            article.save()
+            return redirect('articles:detail', article.pk)
     else:
         form = ArticleForm()
     context = {
@@ -35,22 +37,30 @@ def detail(request, pk):
     return render(request, 'articles/detail.html', context)
 
 @require_POST
+@login_required
 def delete(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    article.delete()
+    if request.user == article.user:
+        article.delete()
     return redirect('articles:index')
 
+@login_required
 def update(request, pk):
     # 수정시에는 해당 article 인스턴스를 넘겨줘야한다!
     article = get_object_or_404(Article, pk=pk)
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, instance=article)
-        if form.is_valid():
-            article = form.save()
-            return redirect('articles:detail', article.pk)
+    if request.user == article.user:
+        if request.method == 'POST':
+            form = ArticleForm(request.POST, instance=article)
+            if form.is_valid():
+                article = form.save(commit=False)
+                article.user = request.user
+                article.save()
+                return redirect('articles:detail', article.pk)
+        else:
+            form = ArticleForm(instance=article)
+        context = {
+            'form': form
+        }
+        return render(request, 'articles/form.html', context)
     else:
-        form = ArticleForm(instance=article)
-    context = {
-        'form': form
-    }
-    return render(request, 'articles/form.html', context)
+        return redirect('articles:index')

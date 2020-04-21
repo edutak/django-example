@@ -25,9 +25,9 @@ class ArticleForm(forms.ModelForm):
     #         )
     class Meta:
         model = Article
-        # fields = ['title', 'content']
+        fields = ['title', 'content']
         # fields = '__all__'
-        exclude = ['title']
+        # exclude = ['title']
 
 # class ArticleForm(forms.Form):
 #     title = forms.CharField(max_length=30)
