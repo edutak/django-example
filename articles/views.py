@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
 from .models import Article
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 
 # Create your views here.
 def index(request):
@@ -31,8 +31,10 @@ def create(request):
 
 def detail(request, pk):
     article = get_object_or_404(Article, pk=pk)
+    form = CommentForm()
     context = {
-        'article': article
+        'article': article,
+        'form': form
     }
     return render(request, 'articles/detail.html', context)
 
@@ -64,3 +66,15 @@ def update(request, pk):
         return render(request, 'articles/form.html', context)
     else:
         return redirect('articles:index')
+
+@require_POST
+@login_required
+def comments_create(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.article = article
+        comment.save()
+    return redirect('articles:detail', article.pk)

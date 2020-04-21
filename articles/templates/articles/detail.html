@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block body %}
     <h1>{{ article.pk }}번 글</h1>
@@ -16,4 +17,16 @@
     </form>
     <a href="{% url 'articles:update' article.pk %}"><button class="btn btn-primary">수정</button></a>
     {% endif %}
+    <hr>
+    <h3>댓글</h3>
+    {% for comment in article.comment_set.all %}
+        <li>{{ comment.user.username }} : {{ comment.content }}</li>
+    {% endfor %}
+    <hr>
+    <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-primary">작성</button>
+    </form>
+
 {% endblock %}

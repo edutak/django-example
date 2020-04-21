@@ -13,7 +13,7 @@
     {% endif %}
 
     <!-- bootstrap4 활용 -->
-    <form action="" method="POST">
+    <form action="{% url 'articles:comments_create' %}" method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
         <!-- input type:submit -->
