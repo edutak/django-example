@@ -2,6 +2,16 @@
 
 > 앞으로 기본 CRUD 로직은 지금 작성된 구조로 균일하게 작성 예정입니다.
 
+
+
+* Django Article CRUD
+* Django Auth
+* Django 1:N
+  * Article - Comment
+  * User - Article
+
+
+
 ## 추가 라이브러리
 
 * [django-bootstrap4](https://django-bootstrap4.readthedocs.io/en/latest/index.html)
