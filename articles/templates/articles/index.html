@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h2>게시판 목록</h2>
-    <a href="{% url 'articles:create' %}"><button class="btn btn-primary">글 쓰기</button></a>
+    <h2 class="text-center">게시판 목록</h2>
+    <a href="{% url 'articles:create' %}"><button class="btn btn-primary float-right my-2">글 쓰기</button></a>
     <table class="table">
       <thead class="thead-light">
         <tr>
