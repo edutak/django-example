@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.http import HttpResponseForbidden, HttpResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .models import Article
@@ -65,16 +67,26 @@ def update(request, pk):
         }
         return render(request, 'articles/form.html', context)
     else:
+        # 1. 메시지프레임워크를 사용하여, 메인페이지로 이동.
+        messages.warning(request, '본인 글만 수정 가능합니다.')
         return redirect('articles:index')
+        # 2. 403 status code를 반환.
+        # return HttpResponseForbidden()
 
+# @login_required
 @require_POST
-@login_required
 def comments_create(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.user = request.user
-        comment.article = article
-        comment.save()
-    return redirect('articles:detail', article.pk)
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=pk)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.article = article
+            comment.save()
+        return redirect('articles:detail', article.pk)
+    else:
+        # 1. next parameter 없이 진행.
+        messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
+        return redirect('accounts:login')
+        # return HttpResponse(status=401)

@@ -13,34 +13,11 @@
     {% endif %}
 
     <!-- bootstrap4 활용 -->
-    <form action="{% url 'articles:comments_create' %}" method="POST">
+    <form action="" method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
         <!-- input type:submit -->
         <button class="btn btn-primary">제출</button>
     </form>
     <hr>
-
-    <!-- 그냥 활용 -->
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="제출">
-    </form>
-    <hr>
-
-    <!-- loop 활용 -->
-    <form action="" method="POST">
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="fieldWrapper">
-                {{ field.errors }}
-                {{ field.label_tag }} <br> {{ field }}
-                {% if field.help_text %}
-                <p class="help">{{ field.help_text|safe }}</p>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <input type="submit" value="제출">
-    </form>
 {% endblock %}
