@@ -16,6 +16,7 @@
     {% endif %}
     <hr>
     <p>{{ article.content }}</p>
+    <img src="{{ article.image.url }}">
     <hr>
     {% for comment in article.comment_set.all %}
         <li>{{ comment.user.username }} : {{ comment.content }}</li>

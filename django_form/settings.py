@@ -127,3 +127,8 @@ STATIC_URL = '/static/'
 
 # LOGIN_URL = '/accounts/login/' # login_required
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# 미디어 파일을 저장하기 위한 루트 경로
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# https://docs.djangoproject.com/en/2.1/howto/static-files/#serving-files-uploaded-by-a-user-during-development
+MEDIA_URL = '/media/'
