@@ -25,6 +25,9 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
+    # articles_article_like_users 테이블 생성
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                            related_name='like_articles')
 
 class Comment(models.Model):
     content = models.TextField()

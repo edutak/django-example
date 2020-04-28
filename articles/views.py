@@ -90,3 +90,17 @@ def comments_create(request, pk):
         messages.warning(request, '댓글 작성을 위해서는 로그인이 필요합니다.')
         return redirect('accounts:login')
         # return HttpResponse(status=401)
+
+def like(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    # request.user
+    # 좋아요를 누른적이 있다면, => DB에 저장되어 있으면
+    # if request.user in article.like_users.all():
+    if article.like_users.filter(id=request.user.pk).exists():
+        # 취소
+        article.like_users.remove(request.user)
+    # 그게 아니면,
+    else:
+        # 좋아요
+        article.like_users.add(request.user)
+    return redirect('articles:detail', article.pk)

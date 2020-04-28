@@ -14,6 +14,16 @@
         <a href="{% url 'articles:update' article.pk %}"><button class="btn btn-secondary">수정</button></a>
     </div>
     {% endif %}
+    {% if request.user in article.like_users.all %}
+    <a href="{% url 'articles:like' article.pk %}">
+        <i class="fas fa-heart fa-lg animated hinge delay-1s" style="color: red;"></i>
+    </a>
+    {% else %}
+    <a href="{% url 'articles:like' article.pk %}">
+        <i class="far fa-heart fa-lg animated infinite bounce delay-1s" style="color: gray;"></i>
+    </a>
+    {% endif %}
+    <p>{{ article.like_users.count }}명이 좋아합니다.</p>
     <hr>
     <p>{{ article.content }}</p>
     <img src="{{ article.image.url }}">
