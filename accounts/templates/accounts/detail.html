@@ -21,4 +21,17 @@
 {% endif %}
 <p> {{ user.followers.all|length }}명이 팔로우하고 있습니다.</p>
 <p> {{ user.followings.count }}명을 내가 팔로우하고 있습니다.</p>
+<hr>
+<h3>작성한 글 목록</h3>
+{% for article in user.article_set.all %}
+    <a href="{% url 'articles:detail' article.pk %}">
+        <p>{{ article.title }}</p>
+    </a>
+{% endfor %}
+<h3>좋아요한 글 목록</h3>
+{% for article in user.like_articles.all %}
+    <a href="{% url 'articles:detail' article.pk %}">
+        <p>{{ article.title }}</p>
+    </a>
+{% endfor %}
 {% endblock %}
