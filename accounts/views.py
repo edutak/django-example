@@ -77,3 +77,18 @@ def update(request):
         'form': form
     }
     return render(request, 'accounts/update.html', context)
+
+def follow(request, pk):
+    User = get_user_model()
+    # 팔로우 당하는 사람
+    user = get_object_or_404(User, pk=pk)
+    if user != request.user:
+        # 팔로우를 요청한 사람 => request.user
+        # 팔로우가 되어 있다면,
+        if user.followers.filter(pk=request.user.pk).exists():
+            # 삭제
+            user.followers.remove(request.user)
+        else:
+            # 추가
+            user.followers.add(request.user)
+    return redirect('accounts:detail', user.pk)

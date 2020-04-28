@@ -104,3 +104,4 @@ def like(request, pk):
         # 좋아요
         article.like_users.add(request.user)
     return redirect('articles:detail', article.pk)
+    
