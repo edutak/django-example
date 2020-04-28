@@ -2,25 +2,24 @@
 
 {% block body %}
 <h1>{{ user.pk }} : {{ user.username }}</h1>
-{% if request.user == user %}
-    <a href="{% url 'accounts:update' %}">회원 수정</a>
-    <form action="{% url 'accounts:delete' %}" method="POST">
-        {% csrf_token %}
-        <button class="btn btn-secondary">회원 탈퇴</button>
-    </form>
-{% endif %}
-{% if request.user != user %}
-    <hr>
-    {% with user_followers=user.followers.all %}
-        {% if request.user in user_followers %}
-            <a href="{% url 'accounts:follow' user.pk %}">팔로우 취소</a>
-        {% else %}
-            <a href="{% url 'accounts:follow' user.pk %}">팔로우</a>
-        {% endif %}
-    {% endwith%}
-{% endif %}
-<p> {{ user.followers.all|length }}명이 팔로우하고 있습니다.</p>
-<p> {{ user.followings.count }}명을 내가 팔로우하고 있습니다.</p>
+{% with user_followers=user.followers.all %}
+    {% if request.user == user %}
+        <a href="{% url 'accounts:update' %}">회원 수정</a>
+        <form action="{% url 'accounts:delete' %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-secondary">회원 탈퇴</button>
+        </form>
+    {% else %}
+        <hr>
+            {% if request.user in user_followers %}
+                <a href="{% url 'accounts:follow' user.pk %}">팔로우 취소</a>
+            {% else %}
+                <a href="{% url 'accounts:follow' user.pk %}">팔로우</a>
+            {% endif %}
+    {% endif %}
+    <p> {{ user_followers|length }}명이 팔로우하고 있습니다.</p>
+    <p> {{ user.followings.count }}명을 내가 팔로우하고 있습니다.</p>
+{% endwith %}
 <hr>
 <h3>작성한 글 목록</h3>
 {% for article in user.article_set.all %}
