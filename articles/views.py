@@ -6,12 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Article
 from .forms import ArticleForm, CommentForm
-
 # Create your views here.
 def index(request):
     articles = Article.objects.order_by('-pk')
     context = {
-        'articles': articles
+        'articles': articles,
     }
     return render(request, 'articles/index.html', context)
 
@@ -104,4 +103,3 @@ def like(request, pk):
         # 좋아요
         article.like_users.add(request.user)
     return redirect('articles:detail', article.pk)
-    
